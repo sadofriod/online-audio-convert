@@ -8,25 +8,38 @@ export default class Audio extends Component {
         this.state = {
             sampleRate: 16000,
             countOfChannel: 1,
-            bitdpth: 'pcm_s16',
+            bitdpth: 'pcm_s16be',
             file: undefined,
             fileName: '',
-            outputFormat: '',
+            outputFormat: 'audio/wav',
             fileInformation: [],
         }
     }
     componentDidMount() { }
     handlerFile = e => {
-        const extname = e.target.files[0].type;
-        if (!exRule.includes(extname)) {
-            alert("只能上传音频");
+        const files = e.target.files
+        if (files.length === 0) {
             return;
         }
-        console.log(e.target.files)
-        this.setState({
-            file: e.target.files[0],
-            fileName: e.target.files[0].name
-        })
+        if(files.length === 1){
+            const extname = files[0].type;
+            if (!exRule.includes(extname)) {
+                alert("只能上传音频");
+                return;
+            }
+            this.setState({
+                file: files[0],
+                fileName: files[0].name
+            })
+        }else{
+            const data = [...files];
+            const nameList = data.map(item=>(item.name))
+            this.setState({
+                file: data,
+                fileName: nameList
+            })
+            console.log(nameList)
+        }
     }
     submit = () => {
         const fd = new FormData();
@@ -41,6 +54,27 @@ export default class Audio extends Component {
             this.setState({
                 fileInformation: JSON.parse(data.srcElement.response).stderr
             });
+        })
+    }
+    submitMulitpleAudio = () => {
+        const fd = new FormData();
+        const url = "http://112.74.165.209:5000/mulitpleAudioConvert";
+        console.log(this.state.file instanceof Array)
+        if(this.state.file instanceof Array){
+            this.state.file.map(item=>{
+                fd.append('files',item,item.name)
+            })
+        }
+        fd.append('filename', this.state.fileName)
+        fd.append('sampleRate', this.state.sampleRate)
+        fd.append('bitdpth', this.state.bitdpth)
+        fd.append('countOfChannel', this.state.countOfChannel);
+        fd.append('format', this.state.outputFormat)
+        uploadConevent(url, fd).then(data => {
+            // this.setState({
+            //     fileInformation: JSON.parse(data.srcElement.response)
+            // });
+            console.log(JSON.parse(data.srcElement.response));
         })
     }
     render() {
@@ -80,9 +114,9 @@ export default class Audio extends Component {
                                 bitdpth: data.target.value
                             })
                         }}>
-                            <option value="pcm_s16">16bit</option>
+                            <option value="pcm_s16be">16bit</option>
                             <option value="pcm_u8">8bit</option>
-                            <option value="pcm_s32">32bit</option>
+                            <option value="pcm_s32be">32bit</option>
                         </select>
                     </div>
                     <div>
@@ -99,8 +133,16 @@ export default class Audio extends Component {
                             ))}
                         </select>
                     </div>
-                    <input type="file" onChange={e => this.handlerFile(e)} />
-                    <button onClick={this.submit}>submit</button>
+                    <div>
+                        <div>多文件上传</div>
+                        <input type="file" onChange={e => this.handlerFile(e)} />
+                        <button onClick={this.submit}>submit</button>
+                    </div>
+                    <div>
+                        <div>单文件上传</div>
+                        <input type="file" multiple placeholder="多文件上传" onChange={e => this.handlerFile(e)} />
+                        <button onClick={this.submitMulitpleAudio}>submit</button>
+                    </div>
                     <div>
                         {
                             this.state.fileInformation.map((item, index) => (

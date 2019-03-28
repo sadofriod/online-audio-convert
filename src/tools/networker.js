@@ -16,6 +16,7 @@ const getSource = (url, audioCtx) => {
     });
 }
 const uploadConevent = (url, obj) => {
+    console.log(obj)
     return new Promise((res, rej) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', url);

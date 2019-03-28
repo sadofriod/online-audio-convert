@@ -1,0 +1,24 @@
+.container{
+    height: 100vh;
+    width: 22vw;
+}
+.userInfo{
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    flex: 4;
+    display: flex;
+}
+.loginController{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userDesc{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
