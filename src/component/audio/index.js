@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getSource, uploadConevent } from '../../tools/networker';
+import styles from './style.css';
 const exRule = ['audio/mp3', 'audio/wma', 'audio/flac', 'audio/acc', 'audio/mmf', 'audio/amr', 'audio/m4a', 'audio/m4r', 'audio/ogg', 'audio/mp2', 'audio/wav', 'audio/wv'];
 export default class Audio extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class Audio extends Component {
         if (files.length === 0) {
             return;
         }
-        if(files.length === 1){
+        if (files.length === 1) {
             const extname = files[0].type;
             if (!exRule.includes(extname)) {
                 alert("只能上传音频");
@@ -31,9 +32,9 @@ export default class Audio extends Component {
                 file: files[0],
                 fileName: files[0].name
             })
-        }else{
+        } else {
             const data = [...files];
-            const nameList = data.map(item=>(item.name))
+            const nameList = data.map(item => (item.name))
             this.setState({
                 file: data,
                 fileName: nameList
@@ -60,10 +61,13 @@ export default class Audio extends Component {
         const fd = new FormData();
         const url = "http://112.74.165.209:5000/mulitpleAudioConvert";
         console.log(this.state.file instanceof Array)
-        if(this.state.file instanceof Array){
-            this.state.file.map(item=>{
-                fd.append('files',item,item.name)
+        if (this.state.file instanceof Array) {
+            this.state.file.map(item => {
+                fd.append('files', item, item.name)
             })
+        }else{
+            alert('请使用单文件上传功能');
+            return;
         }
         fd.append('filename', this.state.fileName)
         fd.append('sampleRate', this.state.sampleRate)
@@ -79,9 +83,9 @@ export default class Audio extends Component {
     }
     render() {
         return (
-            <div>
-                <div>
-                    <div>
+            <div className={styles.container}>
+                <div className={styles.parameterArea}>
+                    <div className={styles.parameterItem}>
                         <label>Sample Rate</label>
                         <select onChange={data => {
                             this.setState({
@@ -94,7 +98,7 @@ export default class Audio extends Component {
                             <option value="48000">48000zh</option>
                         </select>
                     </div>
-                    <div>
+                    <div className={styles.parameterItem}>
                         <label>Count Of Channel</label>
                         <select onChange={data => {
                             this.setState({
@@ -107,7 +111,7 @@ export default class Audio extends Component {
                             <option value="5.1">5.1</option>
                         </select>
                     </div>
-                    <div>
+                    <div className={styles.parameterItem}>
                         <label>bitdpth</label>
                         <select onChange={data => {
                             this.setState({
@@ -119,7 +123,7 @@ export default class Audio extends Component {
                             <option value="pcm_s32be">32bit</option>
                         </select>
                     </div>
-                    <div>
+                    <div className={styles.parameterItem}>
                         <label>Format</label>
                         <select onChange={data => {
                             this.setState({
@@ -133,23 +137,24 @@ export default class Audio extends Component {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <div>多文件上传</div>
+                    <div className={styles.parameterItem}>
+                        <div>单文件上传</div>
                         <input type="file" onChange={e => this.handlerFile(e)} />
                         <button onClick={this.submit}>submit</button>
                     </div>
-                    <div>
-                        <div>单文件上传</div>
+                    <div className={styles.parameterItem}>
+                        <div>多文件上传</div>
                         <input type="file" multiple placeholder="多文件上传" onChange={e => this.handlerFile(e)} />
                         <button onClick={this.submitMulitpleAudio}>submit</button>
                     </div>
-                    <div>
-                        {
+                </div>
+                <div className={styles.fileInformation}>
+                    {
+                        this.state.fileInformation.length ?
                             this.state.fileInformation.map((item, index) => (
                                 index > 1 ? <p key={index}>{item}</p> : ''
-                            ))
-                        }
-                    </div>
+                            )) : <p>暂无音频文件信息数据</p>
+                    }
                 </div>
             </div>
         )

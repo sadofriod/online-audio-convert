@@ -1,0 +1,44 @@
+.container{
+    width: 78vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.parameterArea{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.parameterItem{
+    display: flex;
+    padding: 0px 10px 0px 10px;
+}
+.parameterItem > label{
+    flex: 1;
+    font-weight: 900;
+    font-family: '微软雅黑'
+}
+.parameterItem > select{
+    flex: 5;
+    height: 34px;
+    border-radius: 5px;
+    border: 1px solid rgba(34,34,34,.25);
+    text-indent: 2em;
+}
+.fileInformation{
+    flex: 2;
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid rgba(34,34,34,.25);
+    margin: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+}
+.fileInformation > p{
+    flex: 1;
+    margin: 0px;
+    height: auto;
+    word-wrap: break-word;
+}
