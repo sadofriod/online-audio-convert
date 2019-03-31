@@ -16,7 +16,10 @@ export default class Audio extends Component {
             fileInformation: [],
         }
     }
-    componentDidMount() { }
+    componentDidMount() { 
+        console.log(window.location.origin)
+
+     }
     handlerFile = e => {
         const files = e.target.files
         if (files.length === 0) {
