@@ -44,7 +44,7 @@ export default class Audio extends Component {
     }
     submit = () => {
         const fd = new FormData();
-        const url = "http://127.0.0.1:5000/uploadConvert";
+        const url = "./uploadConvert";
         fd.append('filename', this.state.fileName)
         fd.append('file', this.state.file)
         fd.append('sampleRate', this.state.sampleRate)
@@ -59,7 +59,7 @@ export default class Audio extends Component {
     }
     submitMulitpleAudio = () => {
         const fd = new FormData();
-        const url = "http://127.0.0.1:5000/mulitpleAudioConvert";
+        const url = "./mulitpleAudioConvert";
         console.log(this.state.file instanceof Array)
         if (this.state.file instanceof Array) {
             this.state.file.map(item => {
