@@ -56,7 +56,7 @@ export default class Audio extends Component {
         fd.append('format', this.state.outputFormat)
         uploadConevent(url, fd).then(data => {
             this.setState({
-                fileInformation: JSON.parse(data.srcElement.response).stderr
+                fileInformation: JSON.parse(data.srcElement.response)
             });
         })
     }
@@ -78,10 +78,10 @@ export default class Audio extends Component {
         fd.append('countOfChannel', this.state.countOfChannel);
         fd.append('format', this.state.outputFormat)
         uploadConevent(url, fd).then(data => {
-            // this.setState({
-            //     fileInformation: JSON.parse(data.srcElement.response)
-            // });
-            console.log(JSON.parse(data.srcElement.response));
+            this.setState({
+                fileInformation: JSON.parse(data.srcElement.response)
+            });
+            // console.log(JSON.parse(data.srcElement.response));
         })
     }
     render() {
@@ -153,10 +153,10 @@ export default class Audio extends Component {
                 </div>
                 <div className={styles.fileInformation}>
                     {
-                        this.state.fileInformation.length ?
+                        this.state.fileInformation instanceof Array ?
                             this.state.fileInformation.map((item, index) => (
                                 index > 1 ? <p key={index}>{item}</p> : ''
-                            )) : <p>暂无音频文件信息数据</p>
+                            )) : <p>this.state.fileInformation.descripiton</p>
                     }
                 </div>
             </div>
