@@ -44,10 +44,6 @@ class SignIn extends Component {
             account: this.state.account
         })).then(data => {
             this.hidden();
-            this.props.cookies.set('username', JSON.parse(data.response)[0].user_name, cookieOption);
-            this.props.cookies.set('root', JSON.parse(data.response)[0].root, cookieOption);
-            this.props.cookies.set('userID', JSON.parse(data.response)[0].user_id, cookieOption);
-            this.props.cookies.set('account', JSON.parse(data.response)[0].account, cookieOption);
         })
     }
     render() {
