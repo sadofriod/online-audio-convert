@@ -1,4 +1,6 @@
-// import { get } from "http";
+function addHookForXHR(){
+    
+}
 const getSource = (url, audioCtx) => {
     return new Promise((res, rej) => {
         const xhr = new XMLHttpRequest();

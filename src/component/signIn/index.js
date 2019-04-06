@@ -25,7 +25,7 @@ class SignIn extends Component {
     isLogin = () => {
 
     }
-    hidden = () =>{
+    hidden = () => {
         store.dispatch({
             type: action.UNLOGIN
         })

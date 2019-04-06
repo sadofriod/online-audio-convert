@@ -1,0 +1,24 @@
+.container{
+    display: flex;
+    margin: 29px;
+    align-items: center;
+    font-size: 24px; 
+}
+.container > input{
+    width: 60px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0px 5px 0px 5px;
+    border: 1px solid rgba(34,34,34,.25);
+    text-align: center;
+    font-size: 14px; 
+}
+.container > button {
+    height: 40px;
+    width: 40px;
+    border:0px;
+    font-size: 24px;
+    margin: 0px 5px 0px 5px;
+    border-radius: 5px;
+    color: #fff;
+}

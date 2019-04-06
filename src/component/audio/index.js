@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getSource, uploadConevent } from '../../tools/networker';
 import styles from './style.css';
+import AudioSplit from '../audioSplit/index';
+import SplitParams from '../splitParam/index'
 const exRule = ['audio/mp3', 'audio/wma', 'audio/flac', 'audio/acc', 'audio/mmf', 'audio/amr', 'audio/m4a', 'audio/m4r', 'audio/ogg', 'audio/mp2', 'audio/wav', 'audio/wv'];
 export default class Audio extends Component {
     constructor(props) {
@@ -14,12 +16,13 @@ export default class Audio extends Component {
             fileName: '',
             outputFormat: 'audio/wav',
             fileInformation: [],
+            audioSrc: 'http://112.74.165.209:3030/audio_test.mp3'
         }
     }
-    componentDidMount() { 
+    componentDidMount() {
         console.log(window.location.origin)
 
-     }
+    }
     handlerFile = e => {
         const files = e.target.files
         if (files.length === 0) {
@@ -62,13 +65,13 @@ export default class Audio extends Component {
     }
     submitMulitpleAudio = () => {
         const fd = new FormData();
-        const url = window.location.origin +"/mulitpleAudioConvert";
+        const url = window.location.origin + "/mulitpleAudioConvert";
         console.log(this.state.file instanceof Array)
         if (this.state.file instanceof Array) {
             this.state.file.map(item => {
                 fd.append('files', item, item.name)
             })
-        }else{
+        } else {
             alert('请使用单文件上传功能');
             return;
         }
@@ -151,13 +154,22 @@ export default class Audio extends Component {
                         <button onClick={this.submitMulitpleAudio}>submit</button>
                     </div>
                 </div>
-                <div className={styles.fileInformation}>
-                    {
-                        this.state.fileInformation instanceof Array ?
-                            this.state.fileInformation.map((item, index) => (
-                                index > 1 ? <p key={index}>{item}</p> : ''
-                            )) : <p>this.state.fileInformation.descripiton</p>
-                    }
+                <div 
+                // onClick={
+                //     ()=>this.setState({
+                //     audioSrc: 'http://112.74.165.209:5000/static/default/Ace组合-楚地无歌.mp3'
+                // })} 
+                className={styles.fileInformation}>
+                    <div>
+                        {
+                            this.state.fileInformation instanceof Array ?
+                                this.state.fileInformation.map((item, index) => (
+                                    index > 1 ? <p key={index}>{item}</p> : ''
+                                )) : <p>{this.state.fileInformation.descripiton}</p>
+                        }
+                    </div>
+                    <AudioSplit audioSrc={this.state.audioSrc}/>
+                    <SplitParams/>
                 </div>
             </div>
         )
