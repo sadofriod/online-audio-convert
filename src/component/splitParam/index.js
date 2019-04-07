@@ -66,9 +66,9 @@ export default class SplitParams extends Component {
                 ></input><span>:</span>
                 <input value={this.state.endMin} type="number" maxLength={2} max={59} min={0} placeholder="minutes" onChange={(e) => this.changeTime(e, 'endMin')}></input><span>:</span>
                 <input type="number" value={this.state.endSec} maxLength={2} max={59} min={0} placeholder="seconds" onChange={(e) => this.changeTime(e, 'endSec')}></input>
-                <button onClick={this.postCutData} style={{ backgroundColor: 'rgb(0, 136, 255)', fontSize: '18px' }}>cut</button>
-                <button style={{ backgroundColor: 'rgb(0, 255, 34)' }}>+</button>
-                <button style={{ backgroundColor: 'rgb(255, 0, 0)' }}>-</button>
+                <button title="Start cut" onClick={this.postCutData} style={{ backgroundColor: 'rgb(0, 136, 255)', fontSize: '18px' }}>cut</button>
+                <button title="Add a group of split paramters " onClick={this.props.add} style={{ backgroundColor: 'rgb(0, 255, 34)' }}>+</button>
+                <button title="Remove a group of split paramters " onClick={()=>this.props.remove(this.props.index)} style={{ backgroundColor: 'rgb(255, 0, 0)' }}>-</button>
             </div>
         )
     }

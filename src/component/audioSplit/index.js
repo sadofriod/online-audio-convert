@@ -26,6 +26,7 @@ export default class AudioSplit extends Component {
             console.log(this.container.current.innerHTML);
             return true
         }
+        return true
     }
     renderFream = () => {
 

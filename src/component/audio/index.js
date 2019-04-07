@@ -16,12 +16,12 @@ export default class Audio extends Component {
             fileName: '',
             outputFormat: 'audio/wav',
             fileInformation: [],
-            audioSrc: 'http://112.74.165.209:3030/audio_test.mp3'
+            audioSrc: 'http://112.74.165.209:3030/audio_test.mp3',
+            splitArray: []
         }
     }
     componentDidMount() {
-        console.log(window.location.origin)
-
+        this.addNewSplitParam();
     }
     handlerFile = e => {
         const files = e.target.files
@@ -85,6 +85,29 @@ export default class Audio extends Component {
                 fileInformation: JSON.parse(data.srcElement.response)
             });
             // console.log(JSON.parse(data.srcElement.response));
+        })
+    }
+    removeParams = async (itemKey) =>{
+        let split = this.state.splitArray.concat();
+        let temp = await this.state.splitArray.map((item,index)=>{
+            if(itemKey === item.index){
+                split.slice(index,index+1);
+            }else{
+                return item;
+            }
+        });
+        this.setState({
+            splitArray:temp.filter(value=>value !== undefined)
+        })
+    }
+    addNewSplitParam = () => {
+        let split = this.state.splitArray.concat(),index=Date.now();
+        split.push({
+            element: <SplitParams index={index} key={index} add={this.addNewSplitParam} remove={this.removeParams}/>,
+            index:index
+        })
+        this.setState({
+            splitArray: split
         })
     }
     render() {
@@ -154,12 +177,12 @@ export default class Audio extends Component {
                         <button onClick={this.submitMulitpleAudio}>submit</button>
                     </div>
                 </div>
-                <div 
-                // onClick={
-                //     ()=>this.setState({
-                //     audioSrc: 'http://112.74.165.209:5000/static/default/Ace组合-楚地无歌.mp3'
-                // })} 
-                className={styles.fileInformation}>
+                <div
+                    // onClick={
+                    //     ()=>this.setState({
+                    //     audioSrc: 'http://112.74.165.209:5000/static/default/Ace组合-楚地无歌.mp3'
+                    // })} 
+                    className={styles.fileInformation}>
                     <div>
                         {
                             this.state.fileInformation instanceof Array ?
@@ -168,8 +191,10 @@ export default class Audio extends Component {
                                 )) : <p>{this.state.fileInformation.descripiton}</p>
                         }
                     </div>
-                    <AudioSplit audioSrc={this.state.audioSrc}/>
-                    <SplitParams/>
+                    <AudioSplit audioSrc={this.state.audioSrc} />
+                    <div className={styles.splitParamsArea}>
+                        {this.state.splitArray.map(item => (item.element))}
+                    </div>
                 </div>
             </div>
         )
