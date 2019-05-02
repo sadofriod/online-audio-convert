@@ -15,7 +15,7 @@ export default class AudioList extends Component {
     showLoginPage = () => {
         store.dispatch({
             type: action.IS_LOGIN
-        })
+        });
     }
     listItem = (item, index) => (
         <div key={index} className={styles.listItem}>
