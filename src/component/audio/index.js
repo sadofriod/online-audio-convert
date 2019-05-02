@@ -131,7 +131,7 @@ export default class Audio extends Component {
         return (
             <div className={styles.container}>
                 <div style={this.state.hiddenParamArea?{display:'none'}:{}} className={styles.parameterArea} >
-                    <header>目标文件参数设定：</header>
+                    <header>Target file parameter setting：</header>
                     <div className={styles.parameterItem}>
                         <label>Sample Rate</label>
                         <select onChange={data => {
@@ -190,10 +190,10 @@ export default class Audio extends Component {
                             <input type="file" multiple onChange={e => this.handlerFile(e)} />
                     </div>
                     <button style={{
-                        backgroundColor:this.state.muiltConvert?'':'rgba(59, 136, 255,.8)'
+                        backgroundColor:this.state.muiltConvert?'':'rgba(51,122,183,.8)'
                     }} disabled={this.state.muiltConvert === 'disabled' ? false : 'disabled'} onClick={this.submit}>单文件转换</button>
                     <button style={{
-                        backgroundColor:this.state.muiltConvert?'rgba(59, 136, 255,.8)':''
+                        backgroundColor:this.state.muiltConvert?'rgba(51,122,183,.8)':''
                     }} disabled={this.state.muiltConvert} onClick={this.submitMulitpleAudio}>多文件转换</button>
                     <button onClick={() => this.setState({ autoSplit: true })}>自动切割</button>
                     <button onClick={() => this.setState({ autoSplit: false })}>手动切割</button>

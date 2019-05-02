@@ -6,14 +6,23 @@
     height: 80px;
     display: flex;
     flex-direction: column;
+    border-bottom:1px solid rgba(34,34,34,.25);
+    border-right:1px solid rgba(34,34,34,.25);
 }
 .header{
     flex: 4;
     display: flex;
 }
+.username{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
 .loginController{
     display: flex;
     justify-content: center;
+    flex: 1;
     align-items: center;
 }
 .userDesc{
@@ -21,4 +30,59 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.listContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding:10px 5px 0px 5px;
+    box-sizing: border-box; 
+}
+.listItem{
+    width: 96%;
+    min-height: 120px;
+    border: 1px solid rgba(34,34,34,.25);
+    box-shadow: 0px 0px 5px rgba(34,34,34,.35);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding:0px 5px 0px 5px; 
+}
+.audioName{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(34,34,34,.25);
+}
+.controller{
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.controller > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex:1;
+}
+.audioPath{
+    flex: 1;
+}
+.playButton{
+    height: 35px;
+    width: 35px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: '微软雅黑';
+    font-weight: 900;
+    border: 3px solid rgb(0, 136, 255);
+}
+.playButton > img{
+    height: 20px;
+    margin-right: -5px;
+    width: 20px;
 }

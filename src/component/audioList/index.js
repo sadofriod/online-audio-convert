@@ -6,29 +6,56 @@ export default class AudioList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loginPageStatus:false
+            loginPageStatus: false,
+            listData: [{
+                name:'test',
+            }]
         }
     }
-    showLoginPage =()=>{
+    showLoginPage = () => {
         store.dispatch({
-            type:action.IS_LOGIN
+            type: action.IS_LOGIN
         })
+    }
+    listItem = (item, index) => (
+        <div key={index} className={styles.listItem}>
+            <div className={styles.audioName}>audio name: {item.name}</div>
+            <div className={styles.controller}>
+                <div>
+                    <div className={styles.playButton}>
+                        <img src={require('../../assets/play.png')}/>
+                        {/* <span>|&nbsp;|</span> */}
+                    </div>
+                </div>
+                <div>split item</div>
+            </div>
+            <div className={styles.audioPath}>
+                <a href={'./static/default/' + item.name} download='Get convert result'>
+                    {window.location.origin+'/static/default/'+item.name}
+                </a>
+            </div>
+        </div>
+    )
+    renderListItem = (data) =>{
+        return data.map((item,index)=>this.listItem(item,index))
     }
     render() {
         return (
             <div className={styles.container}>
                 <div className={styles.userInfo}>
                     <div className={styles.header}>
-                        <div>
-                            <img/>
+                        <div className={styles.username}>
+                            username
                         </div>
                         <div className={styles.loginController}>
                             <button onClick={this.showLoginPage}>登录</button>
                         </div>
                     </div>
-                    <div className={styles.userDesc}>test</div>
                 </div>
-                <div className={styles.listContainer}></div>
+                <div className={styles.listContainer}>
+                    {this.renderListItem(this.state.listData)}
+                </div>
+                <audio></audio>
             </div>
         )
     }
