@@ -59,6 +59,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid rgba(34,34,34,.25);
 }
 .controller > div{
     display: flex;
@@ -68,6 +69,13 @@
 }
 .audioPath{
     flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    font-style: italic;
+    overflow: hidden;
+}
+.audioPath > a {
+    text-decoration-line: none;
 }
 .playButton{
     height: 35px;
@@ -80,6 +88,7 @@
     font-family: '微软雅黑';
     font-weight: 900;
     border: 3px solid rgb(0, 136, 255);
+    cursor: pointer;
 }
 .playButton > img{
     height: 20px;
