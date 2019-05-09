@@ -26,10 +26,10 @@ class AudioList extends Component {
         });
     }
     componentDidMount() {
-        post('http://112.74.165.209:5000/getAudioList', {}).then(data => {
-            alert(data);
-            console.log(data);
-        });
+        // post('http://112.74.165.209:5000/getAudioList', {}).then(data => {
+        //     alert(data);
+        //     console.log(data);
+        // });
         this.setState({
             isLogin: isLogin()
         });
