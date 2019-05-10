@@ -1,0 +1,15 @@
+.container{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+.audioList{
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+}
+.audioViewer{
+    flex: 3;
+    height: 100%;
+}

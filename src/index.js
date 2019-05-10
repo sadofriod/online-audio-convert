@@ -5,9 +5,12 @@ import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store/index';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router>
+            <Route component={App} path='/'></Route>
+        </Router>
     </Provider>
     , document.getElementById('root'));
 

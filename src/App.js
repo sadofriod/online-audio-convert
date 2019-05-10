@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import ProgressBar from './component/progressBar/index';
-import { CookiesProvider } from 'react-cookie'
+import SignIn from './component/signIn/index';
+import Main from './component/progressBar/index';
+import { CookiesProvider } from 'react-cookie';
 class App extends Component {
   render() {
     return (
       <CookiesProvider>
-        <div >
-          <ProgressBar />
-        </div>
+        <Main></Main>
       </CookiesProvider>
     );
   }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { getSource, uploadConevent } from '../../tools/networker';
+import { getSource, uploadConevent, URL } from '../../tools/networker';
 import styles from './style.css';
 import AudioSplit from '../audioSplit/index';
 import SplitParams from '../splitParam/index'
 const exRule = ['audio/mp3', 'audio/wma', 'audio/flac', 'audio/acc', 'audio/mmf', 'audio/amr', 'audio/m4a', 'audio/m4r', 'audio/ogg', 'audio/mp2', 'audio/wav', 'audio/wv'];
+let pervKey = [], historyNode = [];
 export default class Audio extends Component {
     constructor(props) {
         super(props);
@@ -18,14 +19,13 @@ export default class Audio extends Component {
             outputFormat: 'audio/wav',
             fileInformation: [],
             audioSrc: 'http://112.74.165.209:3030/audio_test.mp3',
-            splitArray: [],
             muiltConvert: 'disabled',
             autoSplit: true,
-            hiddenParamArea:false
+            hiddenParamArea: false
         }
     }
     componentDidMount() {
-        this.addNewSplitParam();
+
     }
     handlerFile = e => {
         const files = e.target.files
@@ -56,7 +56,7 @@ export default class Audio extends Component {
     }
     submit = () => {
         const fd = new FormData();
-        const url = window.location.origin + "/uploadConvert";
+        const url = URL + "/uploadConvert";
         fd.append('filename', this.state.fileName)
         fd.append('file', this.state.file)
         fd.append('sampleRate', this.state.sampleRate)
@@ -71,7 +71,7 @@ export default class Audio extends Component {
     }
     submitMulitpleAudio = () => {
         const fd = new FormData();
-        const url = window.location.origin + "/mulitpleAudioConvert";
+        const url = URL + "/mulitpleAudioConvert";
         console.log(this.state.file instanceof Array)
         if (this.state.file instanceof Array) {
             this.state.file.map(item => {
@@ -106,83 +106,78 @@ export default class Audio extends Component {
             splitArray: temp.filter(value => value !== undefined)
         })
     }
-    addNewSplitParam = () => {
-        let split = this.state.splitArray.concat(), index = Date.now();
-        split.push({
-            element: <SplitParams index={index} key={index} add={this.addNewSplitParam} remove={this.removeParams} />,
-            index: index
-        })
-        this.setState({
-            splitArray: split
-        })
+    parameterAreaStatus = () => {
+        if (this.state.hiddenParamArea) {
+            this.setState({
+                hiddenParamArea: false
+            });
+        } else {
+            this.setState({
+                hiddenParamArea: true
+            });
+        }
     }
-    parameterAreaStatus = () =>{
-        if(this.state.hiddenParamArea){
-            this.setState({
-                hiddenParamArea:false
-            });
-        }else{
-            this.setState({
-                hiddenParamArea:true
-            });
-        }  
+    setParam = (e, key) => {
+        let tar = e.target;
+        historyNode.push({ key: key, node: e.target });
+        if (pervKey.includes(key)) {
+            for (let i = 0; i < historyNode.length; i++) {
+                if (historyNode[i].key === key) {
+                    historyNode[i].node.style.backgroundColor = '';
+                    tar.style.backgroundColor = 'rgba(179,179,179,.25)';
+                    break;
+                }
+            }
+        } else {
+            pervKey.push(key);
+            tar.style.backgroundColor = 'rgba(179,179,179,.25)';
+        }
+        this.setState({
+            [key]: tar.getAttribute('data-value')
+        });
     }
     render() {
         return (
             <div className={styles.container}>
-                <div style={this.state.hiddenParamArea?{display:'none'}:{}} className={styles.parameterArea} >
-                    <header>Target file parameter setting：</header>
+                <div className={styles.parameterArea} >
+                    <header>目标文件参数设定：</header>
                     <div className={styles.parameterItem}>
-                        <label>Sample Rate</label>
-                        <select onChange={data => {
-                            this.setState({
-                                sampleRate: data.target.value
-                            })
-                        }}>
-                            <option value="8000" >8000hz </option>
-                            <option value="16000">16000hz</option>
-                            <option value="44100">44100hz</option>
-                            <option value="48000">48000zh</option>
-                        </select>
+                        <h3>采样率</h3>
+                        <div onClick={e => this.setParam(e, 'sampleRate')} className={styles.buttonGroup}>
+                            <div data-value="8000">8000hz</div>
+                            <div data-value="16000">16000hz</div>
+                            <div data-value="44100">44100hz</div>
+                            <div data-value="48000">48000hz</div>
+                        </div>
                     </div>
                     <div className={styles.parameterItem}>
-                        <label>Count Of Channel</label>
-                        <select onChange={data => {
-                            this.setState({
-                                countOfChannel: data.target.value
-                            })
-                        }}>
-                            <option value="1" >1 </option>
-                            <option value="2">2 </option>
-                            <option value="4">4 </option>
-                            <option value="5.1">5.1</option>
-                        </select>
+                        <label>声道</label>
+                        <div onClick={e => this.setParam(e, 'countOfChannel')} className={styles.buttonGroup}>
+                            <div data-value="1">1声道</div>
+                            <div data-value="2">2声道</div>
+                            <div data-value="4">4声道</div>
+                            <div data-value="5.1">5.1声道</div>
+                        </div>
                     </div>
                     <div className={styles.parameterItem}>
-                        <label>bitdpth</label>
-                        <select onChange={data => {
-                            this.setState({
-                                bitdpth: data.target.value
-                            })
-                        }}>
-                            <option value="pcm_s16be">16bit</option>
-                            <option value="pcm_u8">8bit</option>
-                            <option value="pcm_s32be">32bit</option>
-                        </select>
+                        <label>存储位深</label>
+                        <div onClick={e => this.setParam(e, 'bitdpth')} className={styles.buttonGroup}>
+                            <div data-value="pcm_s16">16bit</div>
+                            <div data-value="pcm_u8">8bit</div>
+                            <div data-value="pcm_s32">32bit</div>
+                        </div>
                     </div>
                     <div className={styles.parameterItem}>
-                        <label>Format</label>
-                        <select onChange={data => {
-                            this.setState({
-                                outputFormat: data.target.value
-                            })
-                        }}>
+                        <label>格式</label>
+                        <div onClick={e => this.setParam(e, 'outputFormat')} className={styles.buttonGroup}>
+
                             {exRule.map((item, index) => (
-                                <option value={item} key={index}>
+                                <div data-value={item} key={index}>
                                     {item}
-                                </option>
+                                </div>
                             ))}
-                        </select>
+                        </div>
+
                     </div>
                 </div>
                 <div className={styles.menu}>
@@ -190,38 +185,11 @@ export default class Audio extends Component {
                             <input type="file" multiple onChange={e => this.handlerFile(e)} />
                     </div>
                     <button style={{
-                        backgroundColor:this.state.muiltConvert?'':'rgba(51,122,183,.8)'
-                    }} disabled={this.state.muiltConvert === 'disabled' ? false : 'disabled'} onClick={this.submit}>单文件转换</button>
+                        backgroundColor: this.state.muiltConvert ? '' : 'rgba(51,122,183,.8)'
+                    }} disabled={this.state.muiltConvert === 'disabled' ? false : 'disabled'} onClick={this.submit}>单转换</button>
                     <button style={{
-                        backgroundColor:this.state.muiltConvert?'rgba(51,122,183,.8)':''
-                    }} disabled={this.state.muiltConvert} onClick={this.submitMulitpleAudio}>多文件转换</button>
-                    <button onClick={() => this.setState({ autoSplit: true })}>自动切割</button>
-                    <button onClick={() => this.setState({ autoSplit: false })}>手动切割</button>
-                    <button onClick={this.parameterAreaStatus}>
-                        {this.state.hiddenParamArea?'展开参数设置':'收起参数设置'}
-                    </button>
-                </div>
-                <div
-                    // onClick={
-                    //     ()=>this.setState({
-                    //     audioSrc: 'http://112.74.165.209:5000/static/default/Ace组合-楚地无歌.mp3'
-                    // })} 
-                    className={styles.fileInformation}>
-                    {this.state.autoSplit ? <div>
-                        {
-                            this.state.fileInformation instanceof Array ?
-                                this.state.fileInformation.map((item, index) => (
-                                    index > 1 ? <p key={index}>{item}</p> : ''
-                                )) : <p>{this.state.fileInformation.descripiton}</p>
-                        }
-                    </div> :
-                        <div style={{ height: '100%', width: '100%' }}>
-                            <AudioSplit audioSrc={this.state.audioSrc} />
-                            <div className={styles.splitParamsArea}>
-                                {this.state.splitArray.map(item => (item.element))}
-                            </div>
-                        </div>}
-
+                        backgroundColor: this.state.muiltConvert ? 'rgba(51,122,183,.8)' : ''
+                    }} disabled={this.state.muiltConvert} onClick={this.submitMulitpleAudio}>批量转换</button>
                 </div>
             </div>
         )

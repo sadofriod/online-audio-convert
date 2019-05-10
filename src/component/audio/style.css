@@ -1,18 +1,18 @@
 .container{
-    width: 78vw;
-    height: 100vh;
-    display: flex;
+    flex: 1;
+
     flex-direction: column;
     box-sizing: border-box;
     padding-left: 10px;
 }
 .parameterArea{
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
     /* border: 1px solid rgba(34,34,34,.25); */
     justify-content: space-evenly;
-    border-radius:8px; 
+    border-radius:8px;
+    box-sizing: border-box; 
 }
 .parameterArea > header {
     font-size: 24px;
@@ -20,9 +20,22 @@
     font-family: '微软雅黑'; 
 }
 .parameterItem{
+    flex-direction: column;
     display: flex;
     padding: 0px 10px 0px 10px;
     margin: 2px;
+}
+.parameterItem>.buttonGroup{
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 20px;
+}
+.parameterItem>.buttonGroup>div{
+    border-radius: 5px;
+    border:1px solid rgba(34,34,34,.25);
+    padding: 3px;
+    margin: 2px;
+    cursor: pointer;
 }
 .parameterItem > label{
     flex: 1;
@@ -40,19 +53,24 @@
     display: flex;
     margin: 5px;
     align-items: center;
+    flex: 1;
 }
 .menu > div{
     position: relative;
     border-radius: 5px;
     background-color: rgb(51,122,183);
     color: #fff;
-    padding: 5px;
     display: flex;
     justify-content: center;
-    cursor: pointer;
     align-items: center;
+    cursor: pointer;
     border:1px solid rgb(46, 109, 164);
-    margin-right: 20px; 
+    height: 34px;
+    font-size: 14px;
+    min-width: 65px;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 5px;
 }
 .menu > div > input{
     height: 34px;
@@ -70,7 +88,8 @@
     color: #fff;
     border-radius: 5px;
     height: 34px;
-    margin-right: 20px; 
+    margin: 5px;
+    min-width: 65px;
 }
 .fileInformation{
     flex: 2;

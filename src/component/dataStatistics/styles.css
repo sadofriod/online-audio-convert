@@ -1,0 +1,10 @@
+.container{
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.container > div{
+    width: 100%;
+    height: 90vh;
+}

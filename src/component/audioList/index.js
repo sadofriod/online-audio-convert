@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import store from '../../store/index';
-import { post } from '../../tools/networker';
+import { post,URL } from '../../tools/networker';
 import * as action from '../signIn/action';
 import styles from './styles.css';
 import * as cookie from 'react-cookie';
@@ -14,9 +14,7 @@ class AudioList extends Component {
         super(props);
         this.state = {
             loginPageStatus: false,
-            listData: [{
-                name: 'test',
-            }],
+            listData: [],
             isLogin: false
         }
     }
@@ -26,10 +24,11 @@ class AudioList extends Component {
         });
     }
     componentDidMount() {
-        // post('http://112.74.165.209:5000/getAudioList', {}).then(data => {
-        //     alert(data);
-        //     console.log(data);
-        // });
+        post(URL+'/getAudioList', JSON.stringify({user_id:1})).then(data => {
+            this.setState({
+                listData:data.result
+            })
+        });
         this.setState({
             isLogin: isLogin()
         });
@@ -41,18 +40,17 @@ class AudioList extends Component {
     }
     listItem = (item, index) => (
         <div key={index} className={styles.listItem}>
-            <div className={styles.audioName}>audio name: {item.name}</div>
+            <div className={styles.audioName}>名称: {item.audio_name}</div>
             <div className={styles.controller}>
                 <div>
                     <div className={styles.playButton}>
                         <img src={require('../../assets/play.png')} />
-                        {/* <span>|&nbsp;|</span> */}
                     </div>
                 </div>
                 <div>split item</div>
             </div>
             <div className={styles.audioPath}>
-                <a href={'./static/default/' + item.name} download='Get convert result'>
+                <a href={URL+'/static/default' + item.audio_name+'.wav'} download='Get convert result'>
                     Download
                 </a>
             </div>
@@ -77,7 +75,7 @@ class AudioList extends Component {
                 <div className={styles.listContainer}>
                     {this.renderListItem(this.state.listData)}
                 </div>
-                <audio></audio>
+                <audio crossOrigin="true"></audio>
             </div>
         )
     }

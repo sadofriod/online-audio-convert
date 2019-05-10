@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
-import { post } from '../../tools/networker';
+import { post, URL } from '../../tools/networker';
 export default class SplitParams extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ export default class SplitParams extends Component {
             alert('Plase change end time');
             return;
         }
-        post('http://112.74.165.209:5000/manualCut', JSON.stringify({
+        post(URL, JSON.stringify({
             audioId: 9,
             start: e.startHour + ':' + e.startMin + ':' + e.startSec,
             end: e.endHour + ':' + e.endMin + ':' + e.endSec

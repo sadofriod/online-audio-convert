@@ -1,3 +1,4 @@
+const URL = 'http://112.74.165.209:5000'
 const getSource = (url, audioCtx) => {
     return new Promise((res, rej) => {
         const xhr = new XMLHttpRequest();
@@ -32,19 +33,20 @@ const uploadConevent = (url, obj) => {
 const post = (url, obj) => {
     return new Promise((res, rej) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-type','application/json');
+        xhr.open('POST', url,true);
         xhr.withCredentials = true;
+        xhr.setRequestHeader('Content-type','application/json');
         xhr.send(obj);
         xhr.onreadystatechange = data => {
             if (data.srcElement.status === 200) {
                 if (data.srcElement.readyState === 4) {
-                    res(data.srcElement);
+            console.log(data)
+            res(JSON.parse(data.srcElement.response));
                 }
             }
         }
     });
 }
 export {
-    getSource, uploadConevent, post
+    getSource, uploadConevent, post, URL 
 }

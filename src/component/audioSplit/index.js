@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { init } from 'waveform-playlist';
+import SplitParams from '../splitParam'
+import styles from './style.css';
 let originPosition = 0, currentPosition = 0;
 export default class AudioSplit extends Component {
     constructor(props) {
@@ -11,6 +13,7 @@ export default class AudioSplit extends Component {
         this.state = {
             audioCtx: audioCtx,
             waveform: undefined,
+            splitArray: [],
             draged: false
         }
 
@@ -18,11 +21,12 @@ export default class AudioSplit extends Component {
     componentDidMount() {
         const audioCtx = this.state.audioCtx;
         const stream = audioCtx.createMediaElementSource(this.audio.current);
+        this.addNewSplitParam()
     }
-    shouldComponentUpdate(nextProps){
-        if(nextProps.audioSrc !== this.props.audioSrc){
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.audioSrc !== this.props.audioSrc) {
             this.container.current.innerHTML = '';
-          
+
             console.log(this.container.current.innerHTML);
             return true
         }
@@ -77,16 +81,16 @@ export default class AudioSplit extends Component {
         if (target.offsetLeft >= this.container.current.clientWidth) {
             return;
         }
-        if(e.pageX === 0){
+        if (e.pageX === 0) {
             return;
         }
-        if(!this.state.draged){
+        if (!this.state.draged) {
             target.style.left = temp - originPosition + 'px';
             currentPosition = temp - originPosition;
-        }else{
+        } else {
             target.style.left = currentPosition + 'px';
             this.setState({
-                draged:false
+                draged: false
             })
         }
     }
@@ -94,23 +98,45 @@ export default class AudioSplit extends Component {
         console.log('end' + currentPosition)
         e.target.style.left = currentPosition + 'px';
         this.setState({
-            draged:true
+            draged: true
+        })
+    }
+    addNewSplitParam = () => {
+        let split = this.state.splitArray.concat(), index = Date.now();
+        split.push({
+            element: <SplitParams index={index} key={index} add={this.addNewSplitParam} remove={this.removeParams} />,
+            index: index
+        })
+        this.setState({
+            splitArray: split
         })
     }
     render() {
         return (
-            <div style={{ position: 'relative', width: '100%', height: '50%' }} >
-                <div style={{ minWidth: '100%', height: '100%', maxWidth: 'auto' }} ref={this.container} ></div>
-                <div onDragStart={this.initDrag} onDragEnd={this.setEndPosition} draggable="true" onDrag={this.getPosition} style={{
-                    position: 'absolute',
-                    width: '1px',
-                    height: '100%',
-                    top: '0px',
-                    left: '0px',
-                    backgroundColor: 'red',
-                    zIndex: 100
-                }} ref={this.ruler}></div>
-                <audio src={this.props.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+            <div className={styles.container}>
+                <div className={styles.audioList}>
+
+                </div>
+                <div className={styles.audioViewer}>
+                    <div style={{ position: 'relative', width: '100%', height: '35%' }} >
+                        <div style={{ minWidth: '100%', height: '100%', maxWidth: 'auto' }} ref={this.container} ></div>
+                        <div onDragStart={this.initDrag} onDragEnd={this.setEndPosition} draggable="true" onDrag={this.getPosition} style={{
+                            position: 'absolute',
+                            width: '1px',
+                            height: '100%',
+                            top: '0px',
+                            left: '0px',
+                            backgroundColor: 'red',
+                            zIndex: 100
+                        }} ref={this.ruler}></div>
+                    </div>
+                    <div>
+                        <audio controls src={this.props.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                    </div>
+                    <div>
+                        
+                    </div>
+                </div>
             </div>
         )
     }
