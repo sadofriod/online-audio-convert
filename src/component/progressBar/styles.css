@@ -10,7 +10,9 @@
     height: 100%;
     flex: 3;
     box-sizing: border-box;
-    border: 1px solid rgba(34, 34, 34, .25)
+    border: 1px solid rgba(34, 34, 34, .25);
+    display: flex;
+    flex-direction: column;
 }
 .menuList{
     flex: 1;
@@ -28,5 +30,5 @@
     /* box-shadow: 0px 0px 2px rgba(34, 34, 34, .25); */
 }
 .controller{
-    flex: 4;
+    flex: 26;
 }

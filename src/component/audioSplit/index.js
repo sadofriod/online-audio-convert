@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { init } from 'waveform-playlist';
 import SplitParams from '../splitParam'
+import { getSource, URL } from '../../tools/networker';
 import styles from './style.css';
 let originPosition = 0, currentPosition = 0;
 export default class AudioSplit extends Component {
@@ -14,14 +15,20 @@ export default class AudioSplit extends Component {
             audioCtx: audioCtx,
             waveform: undefined,
             splitArray: [],
-            draged: false
+            draged: false,
+            audioSrc: ''
         }
 
     }
     componentDidMount() {
         const audioCtx = this.state.audioCtx;
         const stream = audioCtx.createMediaElementSource(this.audio.current);
-        this.addNewSplitParam()
+        let routeState = this.props.location.state;
+        this.addNewSplitParam();
+        console.log(routeState)
+        this.setState({
+            audioSrc: URL + '/static/default' + routeState.audio_name+'.wav'
+        })
     }
     shouldComponentUpdate(nextProps) {
         if (nextProps.audioSrc !== this.props.audioSrc) {
@@ -114,9 +121,6 @@ export default class AudioSplit extends Component {
     render() {
         return (
             <div className={styles.container}>
-                <div className={styles.audioList}>
-
-                </div>
                 <div className={styles.audioViewer}>
                     <div style={{ position: 'relative', width: '100%', height: '35%' }} >
                         <div style={{ minWidth: '100%', height: '100%', maxWidth: 'auto' }} ref={this.container} ></div>
@@ -131,10 +135,10 @@ export default class AudioSplit extends Component {
                         }} ref={this.ruler}></div>
                     </div>
                     <div>
-                        <audio controls src={this.props.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                        <audio crossOrigin="anonymous" controls src={this.state.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
-                        
+
                     </div>
                 </div>
             </div>

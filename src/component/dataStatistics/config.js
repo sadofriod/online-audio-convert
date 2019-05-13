@@ -5,9 +5,8 @@ var labelRight = {
 }
 export let config = {
     title: {
-        text: '交错正负轴标签',
-        subtext: 'From ExcelHome',
-        sublink: 'http://e.weibo.com/1341556070/AjwF2AgQm'
+        left: 'center',
+        text: '自动切割正误统计',
     },
     tooltip : {
         trigger: 'axis',

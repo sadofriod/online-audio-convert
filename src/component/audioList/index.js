@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import store from '../../store/index';
-import { post,URL } from '../../tools/networker';
+import { post, URL } from '../../tools/networker';
 import * as action from '../signIn/action';
 import styles from './styles.css';
 import * as cookie from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import { isLogin } from '../../tools/tools';
+import { withRouter } from 'react-router-dom';
 class AudioList extends Component {
     static propTypes = {
         cookies: instanceOf(cookie.Cookies).isRequired
@@ -24,9 +25,9 @@ class AudioList extends Component {
         });
     }
     componentDidMount() {
-        post(URL+'/getAudioList', JSON.stringify({user_id:1})).then(data => {
+        post(URL + '/getAudioList', JSON.stringify({ user_id: 1 })).then(data => {
             this.setState({
-                listData:data.result
+                listData: data.result
             })
         });
         this.setState({
@@ -47,10 +48,21 @@ class AudioList extends Component {
                         <img src={require('../../assets/play.png')} />
                     </div>
                 </div>
-                <div>split item</div>
+                <div onClick={() => {
+                    this.props.history.push({
+                        pathname: '/main/autoSplit',
+                        state: item
+                    })
+                }} style={{ cursor: 'pointer' }}>自动切割</div>
+                <div onClick={() => {
+                    this.props.history.push({
+                        pathname: '/main/manualSplit',
+                        state: item
+                    })
+                }} style={{ cursor: 'pointer' }}>手动切割</div>
             </div>
             <div className={styles.audioPath}>
-                <a href={URL+'/static/default' + item.audio_name+'.wav'} download='Get convert result'>
+                <a href={URL + '/static/default' + item.audio_name + '.wav'} download='Get convert result'>
                     Download
                 </a>
             </div>
@@ -80,4 +92,4 @@ class AudioList extends Component {
         )
     }
 }
-export default cookie.withCookies(AudioList);
+export default cookie.withCookies(withRouter(AudioList));

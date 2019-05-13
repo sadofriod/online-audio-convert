@@ -4,6 +4,12 @@
     overflow: hidden;
     box-sizing: border-box;
 }
+.container canvas{
+    max-width: 100% !important;
+}
+.container div{
+    max-width: 100% !important;
+}
 .container > div{
     width: 100%;
     height: 90vh;

@@ -47,7 +47,7 @@ export default class ProgressBar extends Component {
                         <Switch>
                             <Route component={DataStatistics} path="/main/dataStatistics"></Route>
                             <Route component={SplitTable} path="/main/autoSplit"></Route>
-                            <Route component={Audio} path="/main/manualSplit"></Route>
+                            <Route component={AudioSplit} path="/main/manualSplit"></Route>
                             {/* <Route component={Audio} path="/main/convert"></Route> */}
                         </Switch>
                     </div>

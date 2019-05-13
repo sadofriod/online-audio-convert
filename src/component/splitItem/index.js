@@ -23,10 +23,24 @@ export default class SplitItem extends Component {
         return arr.map((item, index) => (this.listItem(item, index)));
     }
     listItem = (item, index) => {
+        let isRight = '';
+        switch (item.isRight) {
+            case 0:
+                isRight = '错误';
+                break;
+            case 1:
+                isRight = '正确';
+                break;
+            case -1:
+                isRight = '未审核';
+            default:
+                break;
+        }
         return (
             <div className={styles.tableRow} key={index}>
                 <div className={styles.tableLable}>{index}</div>
-                <div className={styles.tableLable}>{'名称'}</div>
+                <div className={styles.tableLable}>{item.path.substring(item.path.lastIndexOf('/')+1,item.path.length)}</div>
+                <div className={styles.tableLable}>{isRight}</div>
                 <div className={styles.tableLable}><a download="test" href={URL + item.path}>下载文件</a></div>
             </div>
         )
@@ -39,6 +53,7 @@ export default class SplitItem extends Component {
                     <div className={styles.tableRow}>
                         <div className={styles.tableLable}>序号</div>
                         <div className={styles.tableLable}>名称</div>
+                        <div className={styles.tableLable}>审核结果</div>
                         <div className={styles.tableLable}>下载地址</div>
                     </div>
                     {this.state.itemArray.length ?
