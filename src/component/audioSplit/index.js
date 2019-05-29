@@ -138,7 +138,7 @@ export default class AudioSplit extends Component {
                         }} ref={this.ruler}></div>
                     </div>
                     <div>
-                        <audio controls src={this.state.audioSrc||'http://112.74.165.209:5000/static/default/Rabpit.mp3'} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                        <audio controls src='http://112.74.165.209:5000/static/default/Rabpit.mp3' ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
 
