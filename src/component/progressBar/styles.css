@@ -31,4 +31,5 @@
 }
 .controller{
     flex: 26;
+    overflow: auto;
 }

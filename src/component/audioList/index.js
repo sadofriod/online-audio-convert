@@ -74,16 +74,6 @@ class AudioList extends Component {
     render() {
         return (
             <div className={styles.container}>
-                <div className={styles.userInfo}>
-                    <div className={styles.header}>
-                        <div className={styles.username}>
-                            {!this.state.isLogin ? this.props.cookies.get('username') : '游客' + Date.now()}
-                        </div>
-                        <div className={styles.loginController}>
-                            <button onClick={this.showLoginPage}>登录</button>
-                        </div>
-                    </div>
-                </div>
                 <div className={styles.listContainer}>
                     {this.renderListItem(this.state.listData)}
                 </div>
