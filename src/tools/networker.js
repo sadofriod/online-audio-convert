@@ -34,7 +34,6 @@ const post = (url, obj) => {
     return new Promise((res, rej) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', url,true);
-        xhr.withCredentials = true;
         xhr.setRequestHeader('Content-type','application/json');
         xhr.send(obj);
         xhr.onreadystatechange = data => {
