@@ -25,7 +25,6 @@ export default class AudioSplit extends Component {
         const stream = audioCtx.createMediaElementSource(this.audio.current);
         let routeState = this.props.location.state;
         this.addNewSplitParam();
-        this.renderFream()
         console.log(routeState);
         if(routeState){
             this.setState({
@@ -139,10 +138,11 @@ export default class AudioSplit extends Component {
                         }} ref={this.ruler}></div>
                     </div>
                     <div>
-                        <audio controls crossOrigin="anonymous" src='http://112.74.165.209:5000/static/default/Rabpit.mp3' ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                        <audio controls src='http://112.74.165.209:5000/static/default/Rabpit.mp3' ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
-
+                        <SplitParams add={this.addNewSplitParam}/>
+                        {this.state.splitArray.map(item=>(item.element))}
                     </div>
                 </div>
             </div>
