@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
 import { post, URL } from '../../tools/networker';
+import store from '../../store/index';
 export default class SplitItem extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +17,7 @@ export default class SplitItem extends Component {
             this.setState({
                 itemArray: data.result
             })
-        })
+        });
     }
     renderItem = () => {
         let arr = this.state.itemArray.concat();

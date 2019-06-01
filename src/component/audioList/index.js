@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import store from '../../store/index';
+import { changeUrl } from './action';
 import { post, URL } from '../../tools/networker';
-import * as action from '../signIn/action';
 import styles from './styles.css';
 import * as cookie from 'react-cookie';
 import { instanceOf } from 'prop-types';
@@ -19,11 +19,6 @@ class AudioList extends Component {
             isLogin: false
         }
     }
-    showLoginPage = () => {
-        store.dispatch({
-            type: action.IS_LOGIN
-        });
-    }
     componentDidMount() {
         post(URL + '/getAudioList', JSON.stringify({ user_id: 1 })).then(data => {
             this.setState({
@@ -33,11 +28,6 @@ class AudioList extends Component {
         this.setState({
             isLogin: isLogin()
         });
-        store.subscribe(() => {
-            this.setState({
-                isLogin: isLogin()
-            });
-        })
     }
     listItem = (item, index) => (
         <div key={index} className={styles.listItem}>
@@ -58,7 +48,11 @@ class AudioList extends Component {
                     this.props.history.push({
                         pathname: '/main/manualSplit',
                         state: item
-                    })
+                    });
+                    console.log(store)
+                    store.dispatch(changeUrl({
+                        url:URL + '/static/default' + item.audio_name + '.wav'
+                    }))
                 }} style={{ cursor: 'pointer' }}>手动切割</div>
             </div>
             <div className={styles.audioPath}>
