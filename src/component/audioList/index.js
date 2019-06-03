@@ -26,6 +26,7 @@ class AudioList extends Component {
     }
     componentDidMount() {
         post(URL + '/getAudioList', JSON.stringify({ user_id: 1 })).then(data => {
+            data.result.fcous = false;
             this.setState({
                 listData: data.result
             })

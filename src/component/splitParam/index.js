@@ -51,13 +51,13 @@ export default class SplitParams extends Component {
     render() {
         return (
             <div className={styles.container}>
-                <label>start time</label>
+                <label>开始时间</label>
                 <input type="number" value={this.state.startHour} maxLength={2} max={59} min={0} onChange={(e) => this.changeTime(e, 'startHour')} placeholder="hours"></input>
                 <span>:</span>
                 <input type="number" value={this.state.startMin} maxLength={2} max={59} min={0} onChange={(e) => this.changeTime(e, 'startMin')} placeholder="minutes"></input><span>:</span>
                 <input type="number" value={this.state.startSec} maxLength={2} max={59} min={0} placeholder="seconds" onChange={(e) => this.changeTime(e, 'startSec')}></input>
                 <span>~</span>
-                <label>end time</label>
+                <label>结束时间</label>
                 <input
                     type="number"
                     value={this.state.endHour}

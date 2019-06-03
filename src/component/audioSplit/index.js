@@ -141,7 +141,7 @@ export default class AudioSplit extends Component {
                         <audio controls src='http://112.74.165.209:5000/static/default/Rabpit.mp3' ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
-                        <SplitParams add={this.addNewSplitParam}/>
+                        {/* <SplitParams add={this.addNewSplitParam}/> */}
                         {this.state.splitArray.map(item=>(item.element))}
                     </div>
                 </div>
