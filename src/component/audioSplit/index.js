@@ -3,6 +3,7 @@ import { init } from 'waveform-playlist';
 import SplitParams from '../splitParam'
 import { getSource, URL } from '../../tools/networker';
 import styles from './style.css';
+import store from '../../store/index';
 let originPosition = 0, currentPosition = 0;
 export default class AudioSplit extends Component {
     constructor(props) {
@@ -31,7 +32,10 @@ export default class AudioSplit extends Component {
                 audioSrc: URL + '/static/default' + routeState.audio_name+'.wav'
             });
         }
-        
+        const unsubscribe = store.subscribe(() => {
+            let state = store.getState();
+            console.log(state.changeUrl);
+        })
     }
     shouldComponentUpdate(nextProps) {
         if (nextProps.audioSrc !== this.props.audioSrc) {
