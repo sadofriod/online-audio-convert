@@ -18,6 +18,21 @@ export default class SplitItem extends Component {
                 itemArray: data.result
             })
         });
+        store.subscribe(() => {
+            let state = store.getState();
+            console.log(state.changeUrl);
+
+            if ('id' in state.changeUrl) {
+                post(URL + '/getSplitItem', JSON.stringify({
+                    audio_id: state.changeUrl.id
+                })).then(data => {
+                    // console.log(data)
+                    this.setState({
+                        itemArray: data.result
+                    })
+                });
+            }
+        })
     }
     renderItem = () => {
         let arr = this.state.itemArray.concat();
@@ -28,7 +43,7 @@ export default class SplitItem extends Component {
             <div className={styles.tableRow} key={index}>
                 <div className={styles.tableLable}>{index}</div>
                 <div className={styles.tableLable}>{item.path.substring(item.path.lastIndexOf('/')+1,item.path.length)}</div>
-                <div className={styles.tableLable}><a download="test" href={URL + item.path}>下载文件</a></div>
+                <div className={styles.tableLable}><a download="test" href={URL + '/'+item.path}>下载文件</a></div>
             </div>
         )
     }

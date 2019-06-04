@@ -17,25 +17,36 @@ export default class AudioSplit extends Component {
             waveform: undefined,
             splitArray: [],
             draged: false,
-            audioSrc: ''
+            audioSrc: URL + '/static/default/Rabpit.mp3',
+            store:undefined
         }
 
     }
     componentDidMount() {
         const audioCtx = this.state.audioCtx;
-        const stream = audioCtx.createMediaElementSource(this.audio.current);
         let routeState = this.props.location.state;
         this.addNewSplitParam();
         console.log(routeState);
-        if(routeState){
+        if (routeState) {
             this.setState({
-                audioSrc: URL + '/static/default' + routeState.audio_name+'.wav'
+                audioSrc: URL + '/static/default' + routeState.audio_name + '.wav'
             });
         }
         const unsubscribe = store.subscribe(() => {
             let state = store.getState();
-            console.log(state.changeUrl);
+            if ('url' in state.changeUrl) {
+                console.log(state.changeUrl);
+                this.setState({
+                    audioSrc: state.changeUrl.url
+                });
+            }
+        });
+        this.setState({
+            store:unsubscribe
         })
+    }
+    componentWillUnmount(){
+        // this.state.store.unsubscribe()
     }
     shouldComponentUpdate(nextProps) {
         if (nextProps.audioSrc !== this.props.audioSrc) {
@@ -69,7 +80,7 @@ export default class AudioSplit extends Component {
         });
         waveform.load([
             {
-                src: 'http://112.74.165.209:5000/static/default/Rabpit.mp3',
+                src: this.state.audioSrc,
                 name: 'Vocals',
                 gain: 0.5,
                 waveOutlineColor: '#83d0f2',
@@ -142,11 +153,11 @@ export default class AudioSplit extends Component {
                         }} ref={this.ruler}></div>
                     </div>
                     <div>
-                        <audio controls src='http://112.74.165.209:5000/static/default/Rabpit.mp3' ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                        <audio controls autoPlay src={this.state.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
                         {/* <SplitParams add={this.addNewSplitParam}/> */}
-                        {this.state.splitArray.map(item=>(item.element))}
+                        {this.state.splitArray.map(item => (item.element))}
                     </div>
                 </div>
             </div>

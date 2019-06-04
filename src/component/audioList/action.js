@@ -1,5 +1,12 @@
-export const changeUrl = state =>{
-    console.log(state);
-    return {type:'changeUrl',
-    url:state.url,}
+export const changeUrl = state => {
+    return {
+        type: 'changeUrl',
+        url: state.url,
+    }
+}
+export const changeSplitList = state => {
+    return {
+        type: 'changeSplitList',
+        id: state.id,
+    }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import store from '../../store/index';
-import { changeUrl } from './action';
+import { changeUrl,changeSplitList } from './action';
 import { post, URL } from '../../tools/networker';
 import styles from './styles.css';
 import * as cookie from 'react-cookie';
@@ -43,7 +43,10 @@ class AudioList extends Component {
                     this.props.history.push({
                         pathname: '/main/autoSplit',
                         state: item
-                    })
+                    });
+                    store.dispatch(changeSplitList({
+                        id:item.audio_id
+                    }))
                 }} style={{ cursor: 'pointer' }}>自动切割</div>
                 <div onClick={() => {
                     this.props.history.push({
