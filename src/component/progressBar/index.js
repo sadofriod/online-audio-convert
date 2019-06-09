@@ -9,8 +9,8 @@ import AudioSplit from '../audioSplit';
 import DataStatistics from '../dataStatistics';
 import SplitTable from '../splitItem';
 const linkStyle = {
-    textDecoration: 'none', 
-    color:'#222'
+    textDecoration: 'none',
+    color: '#222'
 }
 export default class ProgressBar extends Component {
     constructor(props) {
@@ -29,32 +29,42 @@ export default class ProgressBar extends Component {
     }
     render() {
         return (
-            <div className={styles.container}>
-                <AudioList></AudioList>
-                <div className={styles.main}>
-                    <div className={styles.menuList}>
-                        <div>
-                            <Link style={linkStyle} to="/main/autoSplit">音频自动切割</Link>
+            <div>
+                <h1 style={{
+                    height:'10vh',
+                    margin:'0',
+                    backgroundColor:'rgb(0,136,255)',
+                    color:'#fff',
+                    display:'flex',
+                    alignItems:'center',
+                    paddingLeft:'10px'
+                }}>语音文件格式转换管理系统</h1>
+                <div className={styles.container}>
+                    <AudioList></AudioList>
+                    <div className={styles.main}>
+                        <div className={styles.menuList}>
+                            <div>
+                                <Link style={linkStyle} to="/main/autoSplit">音频自动切割</Link>
+                            </div>
+                            <div>
+                                <Link style={linkStyle} to="/main/manualSplit">音频手动切割</Link>
+                            </div>
+                            <div>
+                                <Link style={linkStyle} to="/main/dataStatistics">数据统计</Link>
+                            </div>
                         </div>
-                        <div>
-                            <Link style={linkStyle}  to="/main/manualSplit">音频手动切割</Link>
-                        </div>
-                        <div>
-                            <Link style={linkStyle}  to="/main/dataStatistics">数据统计</Link>
+                        <div className={styles.controller}>
+                            <Switch>
+                                <Route component={DataStatistics} path="/main/dataStatistics"></Route>
+                                <Route component={SplitTable} path="/main/autoSplit"></Route>
+                                <Route component={AudioSplit} path="/main/manualSplit"></Route>
+                                {/* <Route component={Audio} path="/main/convert"></Route> */}
+                            </Switch>
                         </div>
                     </div>
-                    <div className={styles.controller}>
-                        <Switch>
-                            <Route component={DataStatistics} path="/main/dataStatistics"></Route>
-                            <Route component={SplitTable} path="/main/autoSplit"></Route>
-                            <Route component={AudioSplit} path="/main/manualSplit"></Route>
-                            {/* <Route component={Audio} path="/main/convert"></Route> */}
-                        </Switch>
-                    </div>
+                    <Audio></Audio>
                 </div>
-                <Audio></Audio>
             </div>
-
         )
     }
 }
