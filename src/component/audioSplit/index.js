@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { init } from 'waveform-playlist';
+import EventEmitter from 'event-emitter';
 import SplitParams from '../splitParam'
 import { getSource, URL } from '../../tools/networker';
 import styles from './style.css';
 import store from '../../store/index';
+import Loading from '../loadingMask'
 let originPosition = 0, currentPosition = 0;
 export default class AudioSplit extends Component {
     constructor(props) {
@@ -18,7 +20,9 @@ export default class AudioSplit extends Component {
             splitArray: [],
             draged: false,
             audioSrc: URL + '/static/default/Rabpit.mp3',
-            store:undefined
+            store: undefined,
+            isLoading: false,
+            percent: 0
         }
 
     }
@@ -26,7 +30,6 @@ export default class AudioSplit extends Component {
         const audioCtx = this.state.audioCtx;
         let routeState = this.props.location.state;
         this.addNewSplitParam();
-        console.log(routeState);
         if (routeState) {
             this.setState({
                 audioSrc: URL + '/static/default' + routeState.audio_name + '.wav'
@@ -37,15 +40,15 @@ export default class AudioSplit extends Component {
             if ('url' in state.changeUrl) {
                 console.log(state.changeUrl);
                 this.setState({
-                    audioSrc: state.changeUrl.url
+                    audioSrc: state.changeUrl.url,
                 });
             }
         });
         this.setState({
-            store:unsubscribe
+            store: unsubscribe
         })
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         // this.state.store.unsubscribe()
     }
     shouldComponentUpdate(nextProps) {
@@ -58,7 +61,6 @@ export default class AudioSplit extends Component {
         return true
     }
     renderFream = () => {
-
         const waveform = init({
             ac: this.state.audioCtx,
             container: this.container.current,
@@ -77,7 +79,7 @@ export default class AudioSplit extends Component {
             controls: {
                 show: false
             },
-        });
+        }, EventEmitter());
         waveform.load([
             {
                 src: this.state.audioSrc,
@@ -93,6 +95,18 @@ export default class AudioSplit extends Component {
                 },
             }
         ]);
+        let wge = waveform.getEventEmitter();
+        wge.on('loadprogress', percent => {
+            this.setState({
+                isLoading: true,
+                percent: parseInt(percent)
+            });
+            if (parseInt(percent) > 99) {
+                this.setState({
+                    isLoading: false
+                })
+            }
+        })
         document.querySelector('.playlist-time-scale').style.height = '29px';
     }
     initDrag = e => {
@@ -102,7 +116,6 @@ export default class AudioSplit extends Component {
     getPosition = (e) => {
         let target = e.target;
         let temp = e.pageX;
-        console.log(temp)
         if (target.offsetLeft >= this.container.current.clientWidth) {
             return;
         }
@@ -120,7 +133,6 @@ export default class AudioSplit extends Component {
         }
     }
     setEndPosition = e => {
-        console.log('end' + currentPosition)
         e.target.style.left = currentPosition + 'px';
         this.setState({
             draged: true
@@ -153,12 +165,13 @@ export default class AudioSplit extends Component {
                         }} ref={this.ruler}></div>
                     </div>
                     <div>
-                        <audio controls autoPlay src={this.state.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
+                        <audio controls src={this.state.audioSrc} ref={this.audio} onLoadedMetadata={this.renderFream} crossOrigin="anonymous"></audio>
                     </div>
                     <div>
                         {/* <SplitParams add={this.addNewSplitParam}/> */}
                         {this.state.splitArray.map(item => (item.element))}
                     </div>
+                    {this.state.isLoading ? <Loading message={"音频文件加载了" + this.state.percent + "%"} /> : null}
                 </div>
             </div>
         )

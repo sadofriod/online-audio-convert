@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { getSource, uploadConevent, URL } from '../../tools/networker';
 import styles from './style.css';
 import AudioSplit from '../audioSplit/index';
-import SplitParams from '../splitParam/index'
+import SplitParams from '../splitParam/index';
+import Loading from '../loadingMask'
 const exRule = ['audio/mp3', 'audio/wma', 'audio/flac', 'audio/acc', 'audio/mmf', 'audio/amr', 'audio/m4a', 'audio/m4r', 'audio/ogg', 'audio/mp2', 'audio/wav', 'audio/wv'];
 let pervKey = [], historyNode = [];
 export default class Audio extends Component {
@@ -21,7 +22,8 @@ export default class Audio extends Component {
             audioSrc: 'http://112.74.165.209:3030/audio_test.mp3',
             muiltConvert: 'disabled',
             autoSplit: true,
-            hiddenParamArea: false
+            hiddenParamArea: false,
+            isLoading:false
         }
     }
     componentDidMount() {
@@ -57,6 +59,9 @@ export default class Audio extends Component {
     submit = () => {
         const fd = new FormData();
         const url = URL + "/uploadConvert";
+        this.setState({
+            isLoading:true
+        })
         fd.append('filename', this.state.fileName)
         fd.append('file', this.state.file)
         fd.append('sampleRate', this.state.sampleRate)
@@ -65,7 +70,8 @@ export default class Audio extends Component {
         fd.append('format', this.state.outputFormat)
         uploadConevent(url, fd).then(data => {
             this.setState({
-                fileInformation: JSON.parse(data.srcElement.response)
+                fileInformation: JSON.parse(data.srcElement.response),
+                isLoading:false
             });
         })
     }
@@ -73,6 +79,9 @@ export default class Audio extends Component {
         const fd = new FormData();
         const url = URL + "/mulitpleAudioConvert";
         console.log(this.state.file instanceof Array)
+        this.setState({
+            isLoading:true
+        })
         if (this.state.file instanceof Array) {
             this.state.file.map(item => {
                 fd.append('files', item, item.name)
@@ -88,7 +97,8 @@ export default class Audio extends Component {
         fd.append('format', this.state.outputFormat)
         uploadConevent(url, fd).then(data => {
             this.setState({
-                fileInformation: JSON.parse(data.srcElement.response)
+                fileInformation: JSON.parse(data.srcElement.response),
+                isLoading:false
             });
             // console.log(JSON.parse(data.srcElement.response));
         })
@@ -191,6 +201,7 @@ export default class Audio extends Component {
                         backgroundColor: this.state.muiltConvert ? 'rgba(51,122,183,.8)' : ''
                     }} disabled={this.state.muiltConvert} onClick={this.submitMulitpleAudio}>批量转换</button>
                 </div>
+                {this.state.isLoading?<Loading message="文件上传中"/>:null}
             </div>
         )
     }
